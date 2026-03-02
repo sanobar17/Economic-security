@@ -4,10 +4,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 from functools import wraps
-
-# ---------------------------
-# Decorator for logging
-# ---------------------------
 def log_function(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -16,28 +12,18 @@ def log_function(func):
         print(f"[LOG] Finished {func.__name__}")
         return result
     return wrapper
-
-# ---------------------------
-# Economic Data Handler
-# ---------------------------
 class EconomicData:
     def __init__(self, data: pd.DataFrame):
         self.data = data
-
-    @log_function
+     @log_function
     def normalize(self):
         return (self.data - self.data.min()) / (self.data.max() - self.data.min())
-
-# ---------------------------
-# Risk Analyzer
-# ---------------------------
 class RiskAnalyzer:
     def __init__(self, data: pd.DataFrame):
         self.data = data
 
     @log_function
     def calculate_risk_score(self):
-        # Weighted scoring system
         weights = {
             "GDP_growth": -0.4,   # lower growth = higher risk
             "inflation": 0.3,
@@ -48,11 +34,7 @@ class RiskAnalyzer:
         for indicator, weight in weights.items():
             if indicator in self.data.columns:
                 score += self.data[indicator].mean() * weight
-        return score
-
-# ---------------------------
-# Forecasting
-# ---------------------------
+        return 
 class Forecasting:
     def __init__(self, data: pd.DataFrame):
         self.data = data
@@ -66,9 +48,6 @@ class Forecasting:
         future = model.predict([[len(self.data)+1]])
         return future[0]
 
-# ---------------------------
-# Policy Document Analyzer
-# ---------------------------
 class PolicyAnalyzer:
     def __init__(self, documents):
         self.documents = documents
@@ -84,9 +63,6 @@ class PolicyAnalyzer:
             clusters.setdefault(label, []).append(self.documents[idx])
         return clusters
 
-# ---------------------------
-# Main Pipeline
-# ---------------------------
 class EconomicSecurityProject:
     def __init__(self, data: pd.DataFrame, documents: list):
         self.data = data
@@ -108,13 +84,7 @@ class EconomicSecurityProject:
 
         return {
             "risk_score": risk_score,
-            "forecast_GDP_growth": gdp_future,
-            "policy_topics": topics
-        }
-
-# ---------------------------
-# Example Usage
-# ---------------------------
+            "forecast_GDP_growth": gdp_future
 if __name__ == "__main__":
     # Example economic dataset
     df = pd.DataFrame({
@@ -143,3 +113,4 @@ if __name__ == "__main__":
         print(f"Cluster {cluster}:")
         for d in docs:
             print(" -", d)
+
